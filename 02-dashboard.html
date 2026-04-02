@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Seat — Studio 108 Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --teal-deep: #0f5e55;
+            --teal-primary: #1a7a6d;
+            --teal-light: #3bbfad;
+            --teal-ghost: #e8f5f2;
+            --teal-subtle: #f0f9f7;
+            --slate: #2c3e3e;
+            --text: #1a1a1a;
+            --text-muted: #6b7c7c;
+            --white: #ffffff;
+            --off-white: #f8fafa;
+            --border: #e0e8e8;
+            --radius: 12px;
+            --radius-lg: 20px;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--off-white);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* ─── NAV ─── */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 48px;
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .nav-brand .logo-img {
+            height: 32px;
+            width: auto;
+        }
+        .nav-brand h1 {
+            font-family: 'Inter', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: var(--slate);
+        }
+        .nav-brand .business-name {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 400;
+            letter-spacing: 0;
+            margin-left: 12px;
+            padding-left: 12px;
+            border-left: 1px solid var(--border);
+        }
+        .nav-links {
+            display: flex;
+            gap: 8px;
+        }
+        .nav-links a {
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            background: var(--teal-ghost);
+            color: var(--teal-deep);
+        }
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--teal-primary);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* ─── MAIN ─── */
+        .main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 48px;
+        }
+
+        /* ─── WELCOME ─── */
+        .welcome {
+            margin-bottom: 32px;
+        }
+        .welcome h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--slate);
+            margin-bottom: 4px;
+        }
+        .welcome p {
+            font-size: 15px;
+            color: var(--text-muted);
+        }
+
+        /* ─── CTA ─── */
+        .cta-card {
+            background: linear-gradient(135deg, var(--teal-deep) 0%, var(--teal-primary) 100%);
+            border-radius: var(--radius-lg);
+            padding: 40px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+        .cta-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 6px;
+        }
+        .cta-card p {
+            font-size: 15px;
+            color: rgba(255,255,255,0.75);
+        }
+        .btn-book {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 32px;
+            background: var(--white);
+            color: var(--teal-deep);
+            border: none;
+            border-radius: var(--radius);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            white-space: nowrap;
+        }
+        .btn-book:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+
+        /* ─── GRID ─── */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        .card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 28px;
+            border: 1px solid var(--border);
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .card-header h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--slate);
+        }
+        .card-header a {
+            font-size: 13px;
+            color: var(--teal-primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* ─── UPCOMING APPOINTMENT ─── */
+        .appointment-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .appointment-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .appt-date {
+            width: 52px;
+            height: 56px;
+            background: var(--teal-ghost);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .appt-date .month {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--teal-primary);
+            text-transform: uppercase;
+        }
+        .appt-date .day {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--teal-deep);
+            line-height: 1;
+        }
+        .appt-info h5 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 2px;
+        }
+        .appt-info span {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* ─── QUICK LINKS ─── */
+        .quick-links {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .quick-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            background: var(--off-white);
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.2s;
+            border: 1px solid transparent;
+        }
+        .quick-link:hover {
+            background: var(--teal-ghost);
+            border-color: var(--teal-light);
+        }
+        .quick-link .icon {
+            width: 36px;
+            height: 36px;
+            background: var(--teal-ghost);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .quick-link .icon svg {
+            width: 18px;
+            height: 18px;
+            fill: var(--teal-primary);
+        }
+
+        /* ─── INFO SIDEBAR ─── */
+        .info-card {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0;
+        }
+        .info-section {
+            padding: 24px 28px;
+            border-right: 1px solid var(--border);
+        }
+        .info-section:last-child {
+            border-right: none;
+        }
+        .info-section h4 {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+        .hours-list {
+            list-style: none;
+        }
+        .hours-list li {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            padding: 4px 0;
+            color: var(--text);
+        }
+        .hours-list li span:last-child {
+            color: var(--text-muted);
+        }
+        .hours-list li.today {
+            font-weight: 600;
+            color: var(--teal-deep);
+        }
+        .hours-list li.today span:last-child {
+            color: var(--teal-primary);
+        }
+        .hours-list li.closed span:last-child {
+            color: #c0c0c0;
+        }
+        .contact-line {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            padding: 6px 0;
+            color: var(--text);
+        }
+        .contact-line svg {
+            width: 16px;
+            height: 16px;
+            fill: var(--teal-primary);
+            flex-shrink: 0;
+        }
+        .contact-line a {
+            color: var(--teal-primary);
+            text-decoration: none;
+        }
+        .social-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+        }
+        .social-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--teal-ghost);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+        .social-icon svg {
+            width: 14px;
+            height: 14px;
+            fill: var(--teal-primary);
+        }
+
+        /* ─── FOOTER ─── */
+        footer {
+            padding: 24px 48px;
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            background: var(--white);
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-brand">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRH5ORsxeSqyZeswEKVjkseT7_krWVdXD3LTQ&s" alt="Open Seat" class="logo-img">
+            <span class="business-name">Studio 108</span>
+        </div>
+        <div class="nav-links">
+            <a href="#" class="active">Home</a>
+            <a href="#">Book</a>
+            <a href="#">Appointments</a>
+            <a href="#">Services</a>
+            <a href="#">Feedback</a>
+        </div>
+        <div class="nav-right">
+            <div class="avatar">GS</div>
+        </div>
+    </nav>
+
+    <main class="main">
+        <div class="welcome">
+            <h2>Welcome back, Grace</h2>
+            <p>Manage your appointments and explore services.</p>
+        </div>
+
+        <div class="cta-card">
+            <div>
+                <h3>Ready for a fresh look?</h3>
+                <p>Book your next appointment in just a few taps.</p>
+            </div>
+            <a href="03-booking.html" class="btn-book">
+                Book Appointment
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+            </a>
+        </div>
+
+        <div class="dashboard-grid">
+            <!-- Upcoming Appointments -->
+            <div class="card">
+                <div class="card-header">
+                    <h4>Upcoming Appointments</h4>
+                    <a href="#">View all</a>
+                </div>
+                <div class="appointment-item">
+                    <div class="appt-date">
+                        <span class="month">Apr</span>
+                        <span class="day">10</span>
+                    </div>
+                    <div class="appt-info">
+                        <h5>Women's Cut &amp; Style</h5>
+                        <span>Thursday at 2:00 PM &middot; with Mike</span>
+                    </div>
+                </div>
+                <div class="appointment-item">
+                    <div class="appt-date">
+                        <span class="month">Apr</span>
+                        <span class="day">24</span>
+                    </div>
+                    <div class="appt-info">
+                        <h5>Olaplex and Blowout</h5>
+                        <span>Thursday at 11:00 AM &middot; with Sarah</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="card">
+                <div class="card-header">
+                    <h4>Quick Links</h4>
+                </div>
+                <div class="quick-links">
+                    <a href="#" class="quick-link">
+                        <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div>
+                        My Profile
+                    </a>
+                    <a href="#" class="quick-link">
+                        <div class="icon"><svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg></div>
+                        Stylists
+                    </a>
+                    <a href="#" class="quick-link">
+                        <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 10h12v2H4v-2zm0-4h12v2H4V6zm0 8h8v2H4v-2zm10 0v6l5-3-5-3z"/></svg></div>
+                        Hair Terminology
+                    </a>
+                    <a href="#" class="quick-link">
+                        <div class="icon"><svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg></div>
+                        My Photos
+                    </a>
+                    <a href="#" class="quick-link">
+                        <div class="icon"><svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg></div>
+                        Deposits
+                    </a>
+                    <a href="#" class="quick-link">
+                        <div class="icon"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/></svg></div>
+                        Feedback
+                    </a>
+                </div>
+            </div>
+
+            <!-- Info Bar -->
+            <div class="card info-card">
+                <div class="info-section">
+                    <h4>Business Hours</h4>
+                    <ul class="hours-list">
+                        <li><span>Monday</span><span>9 AM - 6 PM</span></li>
+                        <li><span>Tuesday</span><span>9 AM - 6 PM</span></li>
+                        <li class="today"><span>Wednesday</span><span>9 AM - 6 PM</span></li>
+                        <li><span>Thursday</span><span>9 AM - 6 PM</span></li>
+                        <li><span>Friday</span><span>9 AM - 5 PM</span></li>
+                        <li class="closed"><span>Saturday</span><span>Closed</span></li>
+                        <li class="closed"><span>Sunday</span><span>Closed</span></li>
+                    </ul>
+                </div>
+                <div class="info-section">
+                    <h4>Contact</h4>
+                    <div class="contact-line">
+                        <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                        <a href="tel:4349959308">(434) 995-9308</a>
+                    </div>
+                    <div class="contact-line">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                        108 10th St NW, Charlottesville
+                    </div>
+                    <div class="social-row">
+                        <a href="#" class="social-icon"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+                        <a href="#" class="social-icon"><svg viewBox="0 0 24 24"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 01-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 017.8 2zm-.2 2A3.6 3.6 0 004 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 003.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6zm9.65 1.5a1.25 1.25 0 110 2.5 1.25 1.25 0 010-2.5zM12 7a5 5 0 110 10 5 5 0 010-10zm0 2a3 3 0 100 6 3 3 0 000-6z"/></svg></a>
+                        <a href="#" class="social-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12a9.97 9.97 0 006.839 9.49c.5.09.682-.218.682-.484v-1.69c-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852v2.746c0 .269.18.579.688.481A10.004 10.004 0 0022 12c0-5.523-4.477-10-10-10z"/></svg></a>
+                    </div>
+                </div>
+                <div class="info-section">
+                    <h4>Your Account</h4>
+                    <div class="contact-line">
+                        <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                        Grace Santos
+                    </div>
+                    <div class="contact-line">
+                        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                        grace@example.com
+                    </div>
+                    <div style="margin-top: 16px;">
+                        <a href="#" style="font-size: 13px; color: var(--teal-primary); text-decoration: none; font-weight: 500;">Edit Profile</a>
+                        <span style="margin: 0 8px; color: var(--border);">|</span>
+                        <a href="#" style="font-size: 13px; color: var(--text-muted); text-decoration: none;">Sign Out</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        2026 Open Seat &middot; All rights reserved
+    </footer>
+</body>
+</html>

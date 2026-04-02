@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Seat — 24/7 Scheduling Software</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --teal-deep: #0f5e55;
+            --teal-primary: #1a7a6d;
+            --teal-light: #3bbfad;
+            --teal-ghost: #e8f5f2;
+            --slate: #2c3e3e;
+            --text: #1a1a1a;
+            --text-muted: #6b7c7c;
+            --white: #ffffff;
+            --off-white: #f8fafa;
+            --border: #e0e8e8;
+            --radius: 12px;
+            --radius-lg: 20px;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--off-white);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ─── NAV ─── */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 48px;
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .nav-brand .logo-img {
+            height: 32px;
+            width: auto;
+        }
+        .nav-brand h1 {
+            font-family: 'Inter', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: var(--slate);
+        }
+        .nav-contact {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        .nav-contact a {
+            color: var(--teal-primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* ─── HERO ─── */
+        .hero {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 64px 48px;
+        }
+        .hero-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            max-width: 1100px;
+            width: 100%;
+            gap: 80px;
+            align-items: center;
+        }
+        .hero-left h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 48px;
+            font-weight: 600;
+            line-height: 1.15;
+            color: var(--slate);
+            margin-bottom: 16px;
+        }
+        .hero-left p {
+            font-size: 17px;
+            line-height: 1.6;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+            max-width: 420px;
+        }
+        .hero-left .info-row {
+            display: flex;
+            gap: 32px;
+            margin-bottom: 40px;
+        }
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        .info-item svg {
+            width: 18px;
+            height: 18px;
+            fill: var(--teal-primary);
+            flex-shrink: 0;
+        }
+        .btn-guest {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 32px;
+            background: var(--teal-primary);
+            color: var(--white);
+            border: none;
+            border-radius: var(--radius);
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-decoration: none;
+        }
+        .btn-guest:hover {
+            background: var(--teal-deep);
+        }
+        .btn-guest svg {
+            width: 18px;
+            height: 18px;
+            fill: var(--white);
+        }
+
+        /* ─── LOGIN CARD ─── */
+        .login-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+            border: 1px solid var(--border);
+        }
+        .login-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--slate);
+        }
+        .login-card .subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 28px;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            transition: border-color 0.2s;
+            background: var(--off-white);
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--teal-primary);
+            background: var(--white);
+        }
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 13px;
+        }
+        .form-row label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+        .form-row label input[type="checkbox"] {
+            accent-color: var(--teal-primary);
+        }
+        .form-row a {
+            color: var(--teal-primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .btn-sign-in {
+            width: 100%;
+            padding: 14px;
+            background: var(--teal-primary);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+        .btn-sign-in:hover {
+            background: var(--teal-deep);
+        }
+        .login-footer {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        .login-footer a {
+            color: var(--teal-primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 20px 0;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* ─── FOOTER ─── */
+        footer {
+            padding: 24px 48px;
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            background: var(--white);
+        }
+        footer a {
+            color: var(--teal-primary);
+            text-decoration: none;
+        }
+
+        /* ─── HOURS BADGE ─── */
+        .hours-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--teal-ghost);
+            color: var(--teal-deep);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 24px;
+        }
+        .hours-badge .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--teal-light);
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-brand">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRH5ORsxeSqyZeswEKVjkseT7_krWVdXD3LTQ&s" alt="Open Seat" class="logo-img">
+        </div>
+        <div class="nav-contact">
+            <span>24/7 Scheduling Software</span>
+        </div>
+    </nav>
+
+    <main class="hero">
+        <div class="hero-container">
+            <div class="hero-left">
+                <div class="hours-badge">
+                    <span class="dot"></span>
+                    Trusted by 500+ businesses
+                </div>
+                <h2>Scheduling<br>made simple.</h2>
+                <p>The modern booking platform for salons, barbershops, and spas. Your clients book in seconds. You stay in control.</p>
+                <div class="info-row">
+                    <div class="info-item">
+                        <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg>
+                        24/7 Online Booking
+                    </div>
+                    <div class="info-item">
+                        <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                        Built for Service Pros
+                    </div>
+                </div>
+                <a href="#" class="btn-guest">
+                    <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
+                    See a Live Demo
+                </a>
+            </div>
+
+            <div class="login-card">
+                <h3>Welcome back</h3>
+                <p class="subtitle">Sign in to book and manage appointments</p>
+                <div class="form-group">
+                    <label>Email address</label>
+                    <input type="email" placeholder="you@example.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" placeholder="Enter your password">
+                </div>
+                <div class="form-row">
+                    <label><input type="checkbox" checked> Remember me</label>
+                    <a href="#">Forgot password?</a>
+                </div>
+                <button class="btn-sign-in">Sign In</button>
+                <div class="divider">or</div>
+                <div class="login-footer">
+                    New here? <a href="#">Create an account</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <a href="#">Privacy Policy</a> &nbsp;&middot;&nbsp; 2026 Open Seat. All rights reserved.
+    </footer>
+</body>
+</html>

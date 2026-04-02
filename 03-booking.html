@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Seat — Book Appointment</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --teal-deep: #0f5e55;
+            --teal-primary: #1a7a6d;
+            --teal-light: #3bbfad;
+            --teal-ghost: #e8f5f2;
+            --teal-subtle: #f0f9f7;
+            --slate: #2c3e3e;
+            --text: #1a1a1a;
+            --text-muted: #6b7c7c;
+            --white: #ffffff;
+            --off-white: #f8fafa;
+            --border: #e0e8e8;
+            --radius: 12px;
+            --radius-lg: 20px;
+            --amber: #f59e0b;
+            --amber-ghost: #fef3c7;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--off-white);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* ─── NAV ─── */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 48px;
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .nav-brand .logo-img {
+            height: 32px;
+            width: auto;
+        }
+        .nav-brand h1 {
+            font-family: 'Inter', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: var(--slate);
+        }
+        .nav-brand .business-name {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 400;
+            letter-spacing: 0;
+            margin-left: 12px;
+            padding-left: 12px;
+            border-left: 1px solid var(--border);
+        }
+        .nav-back {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .nav-back:hover { color: var(--teal-primary); }
+        .nav-back svg { width: 18px; height: 18px; fill: currentColor; }
+
+        /* ─── MAIN ─── */
+        .main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 48px;
+        }
+
+        /* ─── STEPPER ─── */
+        .stepper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            margin-bottom: 40px;
+        }
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .step-number {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 600;
+            border: 2px solid var(--border);
+            color: var(--text-muted);
+            background: var(--white);
+            transition: all 0.2s;
+        }
+        .step.active .step-number {
+            border-color: var(--teal-primary);
+            background: var(--teal-primary);
+            color: var(--white);
+        }
+        .step.done .step-number {
+            border-color: var(--teal-primary);
+            background: var(--teal-ghost);
+            color: var(--teal-primary);
+        }
+        .step-label {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+        .step.active .step-label {
+            color: var(--teal-deep);
+            font-weight: 600;
+        }
+        .step-line {
+            width: 48px;
+            height: 2px;
+            background: var(--border);
+            margin: 0 12px;
+        }
+        .step-line.done {
+            background: var(--teal-light);
+        }
+
+        /* ─── PAGE TITLE ─── */
+        .page-title {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .page-title h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--slate);
+            margin-bottom: 4px;
+        }
+        .page-title p {
+            font-size: 15px;
+            color: var(--text-muted);
+        }
+
+        /* ─── BOOKING FOR ─── */
+        .booking-for {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 28px;
+            padding: 14px 20px;
+            background: var(--teal-ghost);
+            border-radius: var(--radius);
+        }
+        .booking-for .avatar-sm {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--teal-primary);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .booking-for span {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--teal-deep);
+        }
+        .booking-for a {
+            margin-left: auto;
+            font-size: 13px;
+            color: var(--teal-primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* ─── CATEGORIES ─── */
+        .category {
+            margin-bottom: 24px;
+        }
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 0;
+            cursor: pointer;
+            border-bottom: 1px solid var(--border);
+            user-select: none;
+        }
+        .category-header:hover {
+            color: var(--teal-primary);
+        }
+        .category-icon {
+            width: 8px;
+            height: 8px;
+            border-right: 2px solid var(--text-muted);
+            border-bottom: 2px solid var(--text-muted);
+            transform: rotate(45deg);
+            transition: transform 0.2s;
+            flex-shrink: 0;
+        }
+        .category.open .category-icon {
+            transform: rotate(-135deg);
+        }
+        .category-header h3 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--slate);
+            flex: 1;
+        }
+        .category-count {
+            font-size: 12px;
+            color: var(--text-muted);
+            background: var(--off-white);
+            padding: 2px 10px;
+            border-radius: 12px;
+        }
+
+        .service-list {
+            display: none;
+            padding: 8px 0;
+        }
+        .category.open .service-list {
+            display: block;
+        }
+
+        .service-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 20px;
+            margin: 4px 0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.15s;
+            border: 1px solid transparent;
+        }
+        .service-item:hover {
+            background: var(--teal-subtle);
+            border-color: var(--border);
+        }
+        .service-item.selected {
+            background: var(--teal-ghost);
+            border-color: var(--teal-light);
+        }
+        .service-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text);
+        }
+        .service-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .service-duration {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+        .service-price {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--teal-deep);
+            min-width: 70px;
+            text-align: right;
+        }
+        .service-check {
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 12px;
+            flex-shrink: 0;
+            transition: all 0.15s;
+        }
+        .service-item.selected .service-check {
+            background: var(--teal-primary);
+            border-color: var(--teal-primary);
+        }
+        .service-check svg {
+            width: 14px;
+            height: 14px;
+            fill: var(--white);
+            opacity: 0;
+        }
+        .service-item.selected .service-check svg {
+            opacity: 1;
+        }
+
+        /* ─── SELECTED SUMMARY ─── */
+        .selected-summary {
+            position: sticky;
+            bottom: 0;
+            background: var(--white);
+            border-top: 1px solid var(--border);
+            padding: 16px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 -4px 24px rgba(0,0,0,0.06);
+        }
+        .summary-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .summary-badge {
+            background: var(--teal-ghost);
+            color: var(--teal-deep);
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .summary-total {
+            font-size: 15px;
+            color: var(--text);
+        }
+        .summary-total strong {
+            color: var(--teal-deep);
+        }
+        .btn-next {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            background: var(--teal-primary);
+            color: var(--white);
+            border: none;
+            border-radius: var(--radius);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+        .btn-next:hover {
+            background: var(--teal-deep);
+        }
+        .btn-next svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        footer {
+            padding: 24px 48px;
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            background: var(--white);
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-brand">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRH5ORsxeSqyZeswEKVjkseT7_krWVdXD3LTQ&s" alt="Open Seat" class="logo-img">
+            <span class="business-name">Studio 108</span>
+        </div>
+        <a href="02-dashboard.html" class="nav-back">
+            <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+            Back to Home
+        </a>
+    </nav>
+
+    <main class="main">
+        <!-- Stepper -->
+        <div class="stepper">
+            <div class="step done">
+                <div class="step-number">&#10003;</div>
+                <span class="step-label">Customer</span>
+            </div>
+            <div class="step-line done"></div>
+            <div class="step active">
+                <div class="step-number">2</div>
+                <span class="step-label">Service</span>
+            </div>
+            <div class="step-line"></div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <span class="step-label">Stylist</span>
+            </div>
+            <div class="step-line"></div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <span class="step-label">Date &amp; Time</span>
+            </div>
+            <div class="step-line"></div>
+            <div class="step">
+                <div class="step-number">5</div>
+                <span class="step-label">Confirm</span>
+            </div>
+        </div>
+
+        <div class="page-title">
+            <h2>Choose your service</h2>
+            <p>Select one or more services for your appointment.</p>
+        </div>
+
+        <!-- Booking For -->
+        <div class="booking-for">
+            <div class="avatar-sm">GS</div>
+            <span>Booking for Grace Santos</span>
+            <a href="#">+ Add family member</a>
+        </div>
+
+        <!-- Service Categories -->
+        <div class="category open" onclick="this.classList.toggle('open')">
+            <div class="category-header">
+                <div class="category-icon"></div>
+                <h3>Women's Cuts &amp; Styling</h3>
+                <span class="category-count">3 services</span>
+            </div>
+            <div class="service-list">
+                <div class="service-item selected" onclick="event.stopPropagation(); this.classList.toggle('selected')">
+                    <div>
+                        <div class="service-name">Women's Cut &amp; Style</div>
+                    </div>
+                    <div class="service-meta">
+                        <span class="service-duration">45 min</span>
+                        <span class="service-price">$48 - $55</span>
+                        <div class="service-check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                    </div>
+                </div>
+                <div class="service-item" onclick="event.stopPropagation(); this.classList.toggle('selected')">
+                    <div>
+                        <div class="service-name">Olaplex and Women's Cut</div>
+                    </div>
+                    <div class="service-meta">
+                        <span class="service-duration">60 min</span>
+                        <span class="service-price">$68 - $78</span>
+                        <div class="service-check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                    </div>
+                </div>
+                <div class="service-item" onclick="event.stopPropagation(); this.classList.toggle('selected')">
+                    <div>
+                        <div class="service-name">Children's Cut (7 yrs and older)</div>
+                    </div>
+                    <div class="service-meta">
+                        <span class="service-duration">30 min</span>
+                        <span class="service-price">$25</span>
+                        <div class="service-check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category" onclick="this.classList.toggle('open')">
+            <div class="category-header">
+                <div class="category-icon"></div>
+                <h3>Men's Services</h3>
+                <span class="category-count">2 services</span>
+            </div>
+            <div class="service-list">
+                <div class="service-item" onclick="event.stopPropagation(); this.classList.toggle('selected')">
+                    <div>
+                        <div class="service-name">Men's Cut</div>
+                    </div>
+                    <div class="service-meta">
+                        <span class="service-duration">30 min</span>
+                        <span class="service-price">$28 - $35</span>
+                        <div class="service-check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                    </div>
+                </div>
+                <div class="service-item" onclick="event.stopPropagation(); this.classList.toggle('selected')">
+                    <div>
+                        <div class="service-name">Men's Color</div>
+                    </div>
+                    <div class="service-meta">
+                        <span class="service-duration">45 min</span>
+                        <span class="service-price">$45 - $55</span>
+                        <div class="service-check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category" onclick="this.classList.toggle('open')">
+            <div class="category-header">
+                <div class="category-icon"></div>
+                <h3>Color Packages (with cut)</h3>
+                <span class="category-count">3 services</span>
+            </div>
+            <div class="service-list">
+                <div class="service-item" onclick="event.stopPropagation(); this.classList.toggle('selected')">
+                    <div>
+                        <div class="service-name">Full Color + Cut &amp; Style</div>
+                    </div>
+                    <div class="service-meta">
+                        <span class="service-duration">90 min</span>
+                        <span class="service-price">$95 - $120</span>
+                        <div class="service-check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                    </div>
+                </div>
+                <div class="service-item" onclick="event.stopPropagation(); this.classList.toggle('selected')">
+                    <div>
+                        <div class="service-name">Highlights + Cut &amp; Style</div>
+                    </div>
+                    <div class="service-meta">
+                        <span class="service-duration">120 min</span>
+                        <span class="service-price">$120 - $150</span>
+                        <div class="service-check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                    </div>
+                </div>
+                <div class="service-item" onclick="event.stopPropagation(); this.classList.toggle('selected')">
+                    <div>
+                        <div class="service-name">Vivid Color + Cut</div>
+                    </div>
+                    <div class="service-meta">
+                        <span class="service-duration">150 min</span>
+                        <span class="service-price">$200 - $250</span>
+                        <div class="service-check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category" onclick="this.classList.toggle('open')">
+            <div class="category-header">
+                <div class="category-icon"></div>
+                <h3>Color Services (no cut)</h3>
+                <span class="category-count">2 services</span>
+            </div>
+            <div class="service-list">
+                <div class="service-item" onclick="event.stopPropagation(); this.classList.toggle('selected')">
+                    <div>
+                        <div class="service-name">Root Touch-Up</div>
+                    </div>
+                    <div class="service-meta">
+                        <span class="service-duration">60 min</span>
+                        <span class="service-price">$65 - $80</span>
+                        <div class="service-check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                    </div>
+                </div>
+                <div class="service-item" onclick="event.stopPropagation(); this.classList.toggle('selected')">
+                    <div>
+                        <div class="service-name">Vivid Color (no cut)</div>
+                    </div>
+                    <div class="service-meta">
+                        <span class="service-duration">120 min</span>
+                        <span class="service-price">$170 - $200</span>
+                        <div class="service-check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category" onclick="this.classList.toggle('open')">
+            <div class="category-header">
+                <div class="category-icon"></div>
+                <h3>Blowouts &amp; Treatments</h3>
+                <span class="category-count">4 services</span>
+            </div>
+            <div class="service-list">
+                <div class="service-item" onclick="event.stopPropagation(); this.classList.toggle('selected')">
+                    <div>
+                        <div class="service-name">Blowout</div>
+                    </div>
+                    <div class="service-meta">
+                        <span class="service-duration">30 min</span>
+                        <span class="service-price">$35 - $45</span>
+                        <div class="service-check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                    </div>
+                </div>
+                <div class="service-item" onclick="event.stopPropagation(); this.classList.toggle('selected')">
+                    <div>
+                        <div class="service-name">Blowout with Curls or Straight Iron</div>
+                    </div>
+                    <div class="service-meta">
+                        <span class="service-duration">45 min</span>
+                        <span class="service-price">$40 - $50</span>
+                        <div class="service-check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                    </div>
+                </div>
+                <div class="service-item" onclick="event.stopPropagation(); this.classList.toggle('selected')">
+                    <div>
+                        <div class="service-name">Olaplex and Blowout</div>
+                    </div>
+                    <div class="service-meta">
+                        <span class="service-duration">60 min</span>
+                        <span class="service-price">$57 - $67</span>
+                        <div class="service-check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                    </div>
+                </div>
+                <div class="service-item" onclick="event.stopPropagation(); this.classList.toggle('selected')">
+                    <div>
+                        <div class="service-name">Deep Conditioning Treatment</div>
+                    </div>
+                    <div class="service-meta">
+                        <span class="service-duration">30 min</span>
+                        <span class="service-price">$25 - $35</span>
+                        <div class="service-check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category" onclick="this.classList.toggle('open')">
+            <div class="category-header">
+                <div class="category-icon"></div>
+                <h3>Waxing</h3>
+                <span class="category-count">1 service</span>
+            </div>
+            <div class="service-list">
+                <div class="service-item" onclick="event.stopPropagation(); this.classList.toggle('selected')">
+                    <div>
+                        <div class="service-name">Waxing</div>
+                    </div>
+                    <div class="service-meta">
+                        <span class="service-duration">15 min</span>
+                        <span class="service-price">$16 - $24</span>
+                        <div class="service-check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category" onclick="this.classList.toggle('open')">
+            <div class="category-header">
+                <div class="category-icon"></div>
+                <h3>Mike's Specialties</h3>
+                <span class="category-count">2 services</span>
+            </div>
+            <div class="service-list">
+                <div class="service-item" onclick="event.stopPropagation(); this.classList.toggle('selected')">
+                    <div>
+                        <div class="service-name">Precision Fade</div>
+                    </div>
+                    <div class="service-meta">
+                        <span class="service-duration">45 min</span>
+                        <span class="service-price">$35 - $45</span>
+                        <div class="service-check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                    </div>
+                </div>
+                <div class="service-item" onclick="event.stopPropagation(); this.classList.toggle('selected')">
+                    <div>
+                        <div class="service-name">Beard Trim &amp; Shape</div>
+                    </div>
+                    <div class="service-meta">
+                        <span class="service-duration">20 min</span>
+                        <span class="service-price">$20</span>
+                        <div class="service-check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="height: 80px;"></div>
+    </main>
+
+    <!-- Sticky Bottom Bar -->
+    <div class="selected-summary">
+        <div class="summary-info">
+            <span class="summary-badge">1 selected</span>
+            <span class="summary-total">Estimated total: <strong>$48 - $55</strong></span>
+        </div>
+        <button class="btn-next">
+            Choose Stylist
+            <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+        </button>
+    </div>
+
+    <footer>
+        2026 Open Seat &middot; All rights reserved
+    </footer>
+</body>
+</html>
